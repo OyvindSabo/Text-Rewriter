@@ -3,16 +3,26 @@
 
 <!--Below is the function itself-->
 <head>
-
+	<script>
+		function rewriteText() {
+			var input = document.getElementById("input").value;
+			document.getElementById("output").innerHTML = input;
+		}
+	</script>
 </head>
 
 <!--Below are the visuals-->
 <body>
+	<!--Input-->
 	<form>
-		Input your text here.
-		<br>
-		<input type="text" name="input">
+		Input your text here.<br>
+		<textarea id="input" name="input" rows=10 cols=80></textarea><br>
+		<button type="button" onclick="rewriteText()">Rewrite</button>
 	</form>
+
+	<!--Output-->
+	<br>
+	<div id="output"></div>
 
 </body>
 </html>
