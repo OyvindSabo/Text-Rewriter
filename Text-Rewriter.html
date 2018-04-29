@@ -4,26 +4,44 @@
 <!--Below is the function itself-->
 <head>
 	<script>
-		//Below is an HTML specific functions which takes input from the input field and runs rewriteText().
+		//Below is an HTML specific functions which takes input from the input field and runs rewriteText()
 		function runRewriteText() {
 			var input = document.getElementById("input").value;
 			document.getElementById("output").innerHTML = rewriteText(input);
 		}
 
-		synonyms = [["word1", "word2"], ["word3", "word4", "word5"]];
+		synonyms = [["I'm", "I am"], ["you are", "you're"]];
 		//This is the actual rewrite function.
 		function rewriteText(inputText) {
-			var textArray = inputText.split(" ");
-			for (var i = 0; i < textArray.length; i++) {
-				for (var j = 0; j < synonyms.length; j++) {
-					synonymIndex = synonyms[j].indexOf(textArray[i])
-					if (synonymIndex != -1) {
-						textArray[i] = synonyms[j][(synonymIndex+1)%synonyms[j].length];
-					}
-			
+			var sentences = inputText.split(".");
+			var changedThisSynonymGroup = false;
+			var synonymIndex;
+			for (var i = 0; i < sentences.length; i++) { //For each sentence in input text
+				for (var j = 0; j < synonyms.length; j++) { //For each synonym group
+					changedThisSynonymGroup = false;
+					for (var k = 0; k < synonyms[j].length; k++) { //For each synonym within a group
+						if (changedThisSynonymGroup) {
+							break; //We don't want to risk that a newly replaced synonym gets replaced again
+						}
+						synonym = synonyms[j][k]
+						synonymIndex = sentences[i].toLowerCase().indexOf(synonym.toLowerCase()); //synonymIndex tells where in the sentence a potential synonym will be located.
+						if (synonymIndex != -1) {
+							//We make sure that the phrase we're exchanging is a standalone phrase.
+							if ((synonymIndex == 0 || sentences[i].charAt(synonymIndex-1) == " ") && (synonymIndex+synonym.length == sentences[i].length || sentences[i].charAt(synonymIndex+synonym.length) == " " || sentences[i].charAt(synonymIndex+synonym.length) == "," || sentences[i].charAt(synonymIndex+synonym.length) == ":" || sentences[i].charAt(synonymIndex+synonym.length) == ";")) {
+								sentences[i] = sentences[i].substring(0, synonymIndex) + synonyms[j][(k+1)%synonyms[j].length] + sentences[i].substring(synonymIndex+synonym.length, sentences[i].length);
+								changedThisSynonymGroup = true;
+							}
+						}
+					}			
+				}
+				if (sentences[i].charAt(0) == " ") {
+					sentences[i] = sentences[i].substring(0,2).toUpperCase() + sentences[i].substring(2,sentences[i].length);
+				}
+				else {
+					sentences[i] = sentences[i].substring(0,1).toUpperCase() + sentences[i].substring(1,sentences[i].length);
 				}
 			}
-			return textArray.join(" ");
+			return sentences.join(".");
 		}
 	</script>
 </head>
