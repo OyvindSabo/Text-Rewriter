@@ -4,9 +4,26 @@
 <!--Below is the function itself-->
 <head>
 	<script>
-		function rewriteText() {
+		//Below is an HTML specific functions which takes input from the input field and runs rewriteText().
+		function runRewriteText() {
 			var input = document.getElementById("input").value;
-			document.getElementById("output").innerHTML = input;
+			document.getElementById("output").innerHTML = rewriteText(input);
+		}
+
+		synonyms = [["word1", "word2"], ["word3", "word4", "word5"]];
+		//This is the actual rewrite function.
+		function rewriteText(inputText) {
+			var textArray = inputText.split(" ");
+			for (var i = 0; i < textArray.length; i++) {
+				for (var j = 0; j < synonyms.length; j++) {
+					synonymIndex = synonyms[j].indexOf(textArray[i])
+					if (synonymIndex != -1) {
+						textArray[i] = synonyms[j][(synonymIndex+1)%synonyms[j].length];
+					}
+			
+				}
+			}
+			return textArray.join(" ");
 		}
 	</script>
 </head>
@@ -17,7 +34,7 @@
 	<form>
 		Input your text here.<br>
 		<textarea id="input" name="input" rows=10 cols=80></textarea><br>
-		<button type="button" onclick="rewriteText()">Rewrite</button>
+		<button type="button" onclick="runRewriteText()">Rewrite</button>
 	</form>
 
 	<!--Output-->
