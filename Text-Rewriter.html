@@ -27,7 +27,7 @@
 						synonymIndex = sentences[i].toLowerCase().indexOf(synonym.toLowerCase()); //synonymIndex tells where in the sentence a potential synonym will be located.
 						if (synonymIndex != -1) {
 							//We make sure that the phrase we're exchanging is a standalone phrase.
-							if ((synonymIndex == 0 || sentences[i].charAt(synonymIndex-1) == " ") && (synonymIndex+synonym.length == sentences[i].length || sentences[i].charAt(synonymIndex+synonym.length) == " " || sentences[i].charAt(synonymIndex+synonym.length) == "," || sentences[i].charAt(synonymIndex+synonym.length) == ":" || sentences[i].charAt(synonymIndex+synonym.length) == ";")) {
+							if ((synonymIndex == 0 || sentences[i].charAt(synonymIndex-1) == " " || sentences[i].charAt(synonymIndex-1) == "\n") && (synonymIndex+synonym.length == sentences[i].length || sentences[i].charAt(synonymIndex+synonym.length) == " " || sentences[i].charAt(synonymIndex+synonym.length) == "," || sentences[i].charAt(synonymIndex+synonym.length) == ":" || sentences[i].charAt(synonymIndex+synonym.length) == ";")) {
 								sentences[i] = sentences[i].substring(0, synonymIndex) + synonyms[j][(k+1)%synonyms[j].length] + sentences[i].substring(synonymIndex+synonym.length, sentences[i].length);
 								changedThisSynonymGroup = true;
 							}
